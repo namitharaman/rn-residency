@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>RN Residency - Utility Billing</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f7f6;
+      color: #333;
+      padding: 30px 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      color: #1a365d;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      color: #2563eb;
+      margin: 20px 0 10px;
+      font-weight: 600;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #2563eb;
+    }
+
+    .summary-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 25px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: #334155;
+    }
+
+    .summary-row.total {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #0f172a;
+      border-top: 2px dashed #cbd5e1;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-submit:hover {
+      background-color: #1d4ed8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h2>RN Residency - Utility Bill Calculator</h2>
+
+    <form id="billForm">
+
+      <!-- Resident Details -->
+      <div class="section-title">1. Resident Details</div>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Flat Number</label>
+          <input type="text" id="flatNumber" placeholder="e.g. A-101" required>
+        </div>
+
+        <div class="form-group">
+          <label>Resident Name</label>
+          <input type="text" id="residentName" placeholder="e.g. John Doe" required>
+        </div>
+
+        <div class="form-group">
+          <label>Billing Month</label>
+          <input type="text" id="billingMonth" placeholder="e.g. August 2026" required>
+        </div>
+
+      </div>
+
+      <!-- Electricity -->
+      <div class="section-title">2. Electricity Reading (kWh)</div>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Previous Reading</label>
+          <input type="number" id="elecPrev" value="1000" required>
+        </div>
+
+        <div class="form-group">
+          <label>Current Reading</label>
+          <input type="number" id="elecCurr" value="1150" required>
+        </div>
+
+        <div class="form-group">
+          <label>Rate per Unit (₹)</label>
+          <input type="number" step="0.1" id="elecRate" value="6.5" required>
+        </div>
+
+      </div>
+
+      <!-- Water -->
+      <div class="section-title">3. Water Reading (KL)</div>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Previous Reading</label>
+          <input type="number" id="waterPrev" value="200" required>
+        </div>
+
+        <div class="form-group">
+          <label>Current Reading</label>
+          <input type="number" id="waterCurr" value="240" required>
+        </div>
+
+        <div class="form-group">
+          <label>Rate per Unit (₹)</label>
+          <input type="number" step="0.1" id="waterRate" value="4" required>
+        </div>
+
+      </div>
+
+      <!-- Bill Summary -->
+      <div class="summary-box">
+
+        <div class="summary-row">
+          <span>Electricity Consumed:</span>
+          <span id="elecUnits">0 Units</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Electricity Amount:</span>
+          <span id="elecTotal">₹ 0.00</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Water Consumed:</span>
+          <span id="waterUnits">0 Units</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Water Amount:</span>
+          <span id="waterTotal">₹ 0.00</span>
+        </div>
+
+        <div class="summary-row total">
+          <span>Grand Total:</span>
+          <span id="grandTotal">₹ 0.00</span>
+        </div>
+
+      </div>
+
+      <button type="submit" class="btn-submit">
+        Calculate & Save Bill
+      </button>
+
+    </form>
+
+  </div>
+
+  <script>
+
+    const API_BASE_URL = "http://localhost:5000/api";
+
+    function calculateBill() {
+
+      const elecPrev =
+        parseFloat(document.getElementById("elecPrev").value) || 0;
+
+      const elecCurr =
+        parseFloat(document.getElementById("elecCurr").value) || 0;
+
+      const elecRate =
+        parseFloat(document.getElementById("elecRate").value) || 0;
+
+      const waterPrev =
+        parseFloat(document.getElementById("waterPrev").value) || 0;
+
+      const waterCurr =
+        parseFloat(document.getElementById("waterCurr").value) || 0;
+
+      const waterRate =
+        parseFloat(document.getElementById("waterRate").value) || 0;
+
+      const elecUnits = Math.max(0, elecCurr - elecPrev);
+      const elecTotal = elecUnits * elecRate;
+
+      const waterUnits = Math.max(0, waterCurr - waterPrev);
+      const waterTotal = waterUnits * waterRate;
+
+      const grandTotal = elecTotal + waterTotal;
+
+      document.getElementById("elecUnits").innerText =
+        `${elecUnits} Units`;
+
+      document.getElementById("elecTotal").innerText =
+        `₹ ${elecTotal.toFixed(2)}`;
+
+      document.getElementById("waterUnits").innerText =
+        `${waterUnits} Units`;
+
+      document.getElementById("waterTotal").innerText =
+        `₹ ${waterTotal.toFixed(2)}`;
+
+      document.getElementById("grandTotal").innerText =
+        `₹ ${grandTotal.toFixed(2)}`;
+    }
+
+    [
+      "elecPrev",
+      "elecCurr",
+      "elecRate",
+      "waterPrev",
+      "waterCurr",
+      "waterRate"
+    ].forEach(id => {
+      document
+        .getElementById(id)
+        .addEventListener("input", calculateBill);
+    });
+
+    calculateBill();
+
+    // ---------- Save Bill to MongoDB ----------
+    document
+      .getElementById("billForm")
+      .addEventListener("submit", async (e) => {
+
+        e.preventDefault();
+
+        const payload = {
+          flatNumber:
+            document.getElementById("flatNumber").value.trim(),
+
+          residentName:
+            document.getElementById("residentName").value.trim(),
+
+          billingMonth:
+            document.getElementById("billingMonth").value.trim(),
+
+          elecPrev:
+            parseFloat(document.getElementById("elecPrev").value),
+
+          elecCurr:
+            parseFloat(document.getElementById("elecCurr").value),
+
+          elecRate:
+            parseFloat(document.getElementById("elecRate").value),
+
+          waterPrev:
+            parseFloat(document.getElementById("waterPrev").value),
+
+          waterCurr:
+            parseFloat(document.getElementById("waterCurr").value),
+
+          waterRate:
+            parseFloat(document.getElementById("waterRate").value)
+        };
+
+        try {
+          const response = await fetch(
+            `${API_BASE_URL}/bills/calculate`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(payload)
+            }
+          );
+
+          const result = await response.json();
+
+          if (response.ok) {
+            alert("✅ RN Residency bill saved successfully!");
+
+            console.log("Saved Bill:", result.bill);
+          } else {
+            alert(`❌ Error: ${result.message || "Unable to save bill"}`);
+          }
+
+        } catch (error) {
+          alert(
+            "⚠️ Server connection failed! Make sure Node server is running."
+          );
+
+          console.error(error);
+        }
+
+      });
+
+  </script>
+
+</body>
+</html>

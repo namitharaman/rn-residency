@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RN Residency - Gallery & Facilities</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --accent: #2563eb;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 2.25rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle {
+      color: var(--text-sub);
+      font-size: 1rem;
+    }
+
+    /* Interactive Gallery Grid Layout */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    /* Featured Image (Whole Building) Spans 2 Columns on Large Screens */
+    .gallery-card.featured {
+      grid-column: span 2;
+    }
+
+    .gallery-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border-color: var(--accent);
+    }
+
+    /* Image Wrapper & Zoom Animation */
+    .image-container {
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-card.featured .image-container {
+      height: 320px;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-card:hover .image-container img {
+      transform: scale(1.08);
+    }
+
+    /* Badge Label overlay on top of images */
+    .badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(30, 58, 138, 0.85);
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Text Description Section */
+    .card-content {
+      padding: 20px;
+    }
+
+    .card-content h3 {
+      font-size: 1.25rem;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .card-content p {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .gallery-card.featured {
+        grid-column: span 1;
+      }
+      .gallery-card.featured .image-container {
+        height: 240px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="section-header">
+      <h1 class="section-title">RN Residency View</h1>
+      <p class="section-subtitle">Take a look around our building and spacious interiors</p>
+    </div>
+
+    <div class="gallery-grid">
+
+      <!-- 1. Whole Building -->
+      <div class="gallery-card featured">
+        <div class="image-container">
+          <span class="badge">Exterior View</span>
+          <img src="file:///C:/Users/namit/OneDrive/Pictures/Screenshots/apartment.png" alt="DSK Residency Main Building">
+        </div>
+        <div class="card-content">
+          <h3>DSK Residency Building</h3>
+          <p>Modern residential complex featuring 24/7 security, backup power, elevator access, and structured parking.</p>
+        </div>
+      </div>
+
+      <!-- 2. Hall -->
+      <div class="gallery-card">
+        <div class="image-container">
+          <span class="badge">Living Space</span>
+          <img src="file:///C:/Users/namit/OneDrive/Pictures/Screenshots/hall.png" alt="Living Room Hall">
+        </div>
+        <div class="card-content">
+          <h3>Spacious Hall</h3>
+          <p>Well-ventilated and brightly lit living space designed for comfort and relaxation.</p>
+        </div>
+      </div>
+
+      <!-- 3. Bedroom -->
+      <div class="gallery-card">
+        <div class="image-container">
+          <span class="badge">Interior</span>
+          <img src="file:///C:/Users/namit/OneDrive/Pictures/Screenshots/romm.png" alt="Bedroom Interior">
+        </div>
+        <div class="card-content">
+          <h3>Standard Bedroom</h3>
+          <p>Cozy private room with modern finishing and optimal natural lighting.</p>
+        </div>
+      </div>
+
+      <!-- 4. Spacious Bedroom -->
+      <div class="gallery-card">
+        <div class="image-container">
+          <span class="badge">Master Bedroom</span>
+          <img src="file:///C:/Users/namit/OneDrive/Pictures/Screenshots/bedroom.png" alt="Spacious Master Bedroom">
+        </div>
+        <div class="card-content">
+          <h3>Spacious Master Bedroom</h3>
+          <p>Large bedroom layout offering ample space for wardrobes and personal furnishings.</p>
+        </div>
+      </div>
+
+      <!-- 5. Kitchen -->
+      <div class="gallery-card">
+        <div class="image-container">
+          <span class="badge">Kitchen</span>
+          <img src="file:///C:/Users/namit/OneDrive/Pictures/Screenshots/kitchen.png" alt="Modern Kitchen Area">
+        </div>
+        <div class="card-content">
+          <h3>Modular Kitchen</h3>
+          <p>Functional kitchen layout with quality countertops and continuous water supply.</p>
+        </div>
+      </div>
+
+      <!-- 6. Restroom -->
+      <div class="gallery-card">
+        <div class="image-container">
+          <span class="badge">Bathroom</span>
+          <img src="file:///C:/Users/namit/OneDrive/Pictures/Screenshots/restroom.png" alt="Restroom Facility">
+        </div>
+        <div class="card-content">
+          <h3>Modern Restroom</h3>
+          <p>Clean, fully tiled bathroom equipped with quality fixtures and 24/7 water supply.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

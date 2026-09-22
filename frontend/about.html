@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About Us | RN Residency</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ================================
+           ABOUT PAGE
+        ================================= */
+
+        .about-hero {
+            min-height: 55vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+            background:
+                linear-gradient(
+                    rgba(16, 44, 35, 0.88),
+                    rgba(16, 44, 35, 0.88)
+                ),
+                url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80")
+                center/cover;
+            color: white;
+        }
+
+        .about-hero-content {
+            max-width: 800px;
+        }
+
+        .about-hero h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+
+        .about-hero p {
+            max-width: 650px;
+            margin: auto;
+            color: #dce7e2;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .about-container {
+            width: 90%;
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .about-section {
+            padding: 80px 0;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 55px;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 430px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .section-label {
+            color: #c99b52;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .about-section h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 38px;
+            color: #174c3c;
+            margin-bottom: 20px;
+        }
+
+        .about-section p {
+            color: #68766f;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        /* Features */
+
+        .features-section {
+            background: #f5f6f3;
+            padding: 80px 0;
+        }
+
+        .center-title {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 45px;
+        }
+
+        .center-title h2 {
+            font-family: "Playfair Display", serif;
+            color: #174c3c;
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .center-title p {
+            color: #718079;
+            line-height: 1.7;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #e2e6e1;
+            transition: 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 35px rgba(22, 55, 44, 0.09);
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            background: #edf3ef;
+            border-radius: 13px;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: #174c3c;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #718079;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* Statistics */
+
+        .stats-section {
+            padding: 70px 0;
+            background: #174c3c;
+            color: white;
+        }
+
+        .stats-grid-about {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .about-stat h3 {
+            font-size: 38px;
+            color: #d9b36c;
+            margin-bottom: 5px;
+        }
+
+        .about-stat p {
+            color: #d5e0db;
+            font-size: 13px;
+        }
+
+        /* Mission */
+
+        .mission-box {
+            background: white;
+            border-radius: 20px;
+            padding: 45px;
+            text-align: center;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .mission-box h2 {
+            margin-bottom: 15px;
+        }
+
+        /* CTA */
+
+        .about-cta {
+            padding: 80px 20px;
+            text-align: center;
+            background: #f5f6f3;
+        }
+
+        .about-cta h2 {
+            font-family: "Playfair Display", serif;
+            color: #174c3c;
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .about-cta p {
+            color: #718079;
+            margin-bottom: 25px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 13px 25px;
+            border-radius: 9px;
+            background: #174c3c;
+            color: white;
+            font-weight: 700;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .cta-btn:hover {
+            background: #10372b;
+            transform: translateY(-2px);
+        }
+
+        /* Mobile */
+
+        @media (max-width: 800px) {
+            .about-hero h1 {
+                font-size: 42px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-image {
+                height: 300px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid-about {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 35px;
+            }
+
+            .about-section h2,
+            .center-title h2,
+            .about-cta h2 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .about-hero {
+                min-height: 60vh;
+            }
+
+            .about-hero h1 {
+                font-size: 35px;
+            }
+
+            .about-hero p {
+                font-size: 14px;
+            }
+
+            .stats-grid-about {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .about-stat h3 {
+                font-size: 30px;
+            }
+
+            .mission-box {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">
+            <span>RN</span> Residency
+        </div>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <a href="apartment.html">Apartments</a>
+            <a href="login.html">Login</a>
+        </nav>
+
+        <a href="register.html" class="nav-btn">Join Us</a>
+    </header>
+
+    <!-- HERO -->
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <div class="section-label">ABOUT RN RESIDENCY</div>
+
+            <h1>
+                A Better Place<br>
+                to Call Home
+            </h1>
+
+            <p>
+                RN Residency is designed to provide a comfortable,
+                secure and connected living experience for residents
+                and families.
+            </p>
+        </div>
+    </section>
+
+    <!-- ABOUT US -->
+    <section class="about-section">
+        <div class="about-container">
+            <div class="about-grid">
+
+                <div>
+                    <div class="section-label">WHO WE ARE</div>
+
+                    <h2>
+                        More Than Just
+                        an Apartment
+                    </h2>
+
+                    <p>
+                        RN Residency is a modern residential community
+                        focused on creating a safe, peaceful and
+                        convenient environment for everyone.
+                    </p>
+
+                    <p>
+                        Our platform makes residential management easier
+                        by connecting residents, administrators and
+                        community services in one place.
+                    </p>
+
+                    <p>
+                        From apartment management and maintenance
+                        complaints to notices and payments, RN Residency
+                        brings everything together through a simple
+                        digital experience.
+                    </p>
+                </div>
+
+                <div>
+                    <img
+                        class="about-image"
+                        src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80"
+                        alt="Modern RN Residency apartment"
+                    >
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features-section">
+        <div class="about-container">
+
+            <div class="center-title">
+                <div class="section-label">OUR SERVICES</div>
+
+                <h2>Everything You Need</h2>
+
+                <p>
+                    Designed to make everyday residential life
+                    simple, organized and comfortable.
+                </p>
+            </div>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <h3>Modern Apartments</h3>
+                    <p>Comfortable and well-maintained apartments designed for modern family living.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Safe & Secure</h3>
+                    <p>A secure residential environment with organized visitor and community management.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Easy Maintenance</h3>
+                    <p>Residents can submit complaints and track maintenance requests easily.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Community Notices</h3>
+                    <p>Stay updated with important announcements, events and community information.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💳</div>
+                    <h3>Easy Payments</h3>
+                    <p>Manage maintenance payments and view payment history from your dashboard.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Connected Community</h3>
+                    <p>A digital platform that connects residents and administrators efficiently.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- STATISTICS -->
+    <section class="stats-section">
+        <div class="about-container">
+            <div class="stats-grid-about">
+
+                <div class="about-stat">
+                    <h3>120+</h3>
+                    <p>Residential Homes</p>
+                </div>
+
+                <div class="about-stat">
+                    <h3>186+</h3>
+                    <p>Residents</p>
+                </div>
+
+                <div class="about-stat">
+                    <h3>24/7</h3>
+                    <p>Community Support</p>
+                </div>
+
+                <div class="about-stat">
+                    <h3>100%</h3>
+                    <p>Resident Focus</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION -->
+    <section class="about-section">
+        <div class="about-container">
+            <div class="mission-box">
+
+                <div class="section-label">OUR MISSION</div>
+
+                <h2>Building Better Community Living</h2>
+
+                <p>
+                    Our mission is to provide residents with a
+                    comfortable living environment while using
+                    technology to simplify residential management.
+                </p>
+
+                <p>
+                    We believe that a great residential community
+                    is built on safety, transparency, convenience
+                    and strong communication.
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="about-cta">
+        <h2>Ready to Find Your Home?</h2>
+
+        <p>
+            Explore apartments available at RN Residency.
+        </p>
+
+        <a href="apartment.html" class="cta-btn">
+            Explore Apartments →
+        </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+
+            <div>
+                <div class="logo">
+                    <span>RN</span> Residency
+                </div>
+
+                <p>
+                    Comfortable living. Connected community.
+                </p>
+            </div>
+
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="apartment.html">Apartments</a>
+                <a href="login.html">Login</a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 RN Residency. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+
+</body>
+</html>

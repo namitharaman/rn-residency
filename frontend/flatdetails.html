@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RN Residency - Flat Availability</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f7f6;
+      color: #333;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    header h1 {
+      color: #1a365d;
+      font-size: 1.8rem;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border-left: 5px solid #cbd5e1;
+    }
+
+    .stat-card.total { border-left-color: #3b82f6; }
+    .stat-card.vacant { border-left-color: #10b981; }
+    .stat-card.occupied { border-left-color: #f59e0b; }
+    .stat-card.maintenance { border-left-color: #ef4444; }
+
+    .stat-card h3 {
+      font-size: 0.85rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-card p {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #1e293b;
+      margin-top: 5px;
+    }
+
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      margin-bottom: 25px;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #fff;
+      color: #475569;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover, .btn.active {
+      background: #1a365d;
+      color: #fff;
+      border-color: #1a365d;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .flats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .flat-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 20px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .flat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .flat-number {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #0f172a;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .badge.vacant { background: #d1fae5; color: #065f46; }
+    .badge.occupied { background: #fef3c7; color: #92400e; }
+    .badge.maintenance { background: #fee2e2; color: #991b1b; }
+
+    .flat-details {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .flat-details strong {
+      color: #1e293b;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .modal h2 {
+      margin-bottom: 15px;
+      color: #0f172a;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #334155;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .form-group.hidden { display: none; }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .error-text {
+      color: #dc2626;
+      font-size: 0.8rem;
+      margin-top: 4px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>RN Residency - Flat Management</h1>
+      <button class="btn btn-primary" onclick="openModal()">+ Add New Flat</button>
+    </header>
+
+    <div class="dashboard-grid">
+      <div class="stat-card total">
+        <h3>Total Flats</h3>
+        <p id="stat-total">0</p>
+      </div>
+      <div class="stat-card vacant">
+        <h3>Vacant</h3>
+        <p id="stat-vacant">0</p>
+      </div>
+      <div class="stat-card occupied">
+        <h3>Occupied</h3>
+        <p id="stat-occupied">0</p>
+      </div>
+      <div class="stat-card maintenance">
+        <h3>Maintenance</h3>
+        <p id="stat-maintenance">0</p>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <div class="filter-buttons">
+        <button class="btn active" onclick="filterFlats('All', this)">All</button>
+        <button class="btn" onclick="filterFlats('Vacant', this)">Vacant</button>
+        <button class="btn" onclick="filterFlats('Occupied', this)">Occupied</button>
+        <button class="btn" onclick="filterFlats('Maintenance', this)">Under Maintenance</button>
+      </div>
+    </div>
+
+    <div class="flats-grid" id="flatsGrid"></div>
+  </div>
+
+  <!-- Add Flat Modal -->
+  <div class="modal-overlay" id="addModal">
+    <div class="modal">
+      <h2>Add New Flat</h2>
+      <form id="flatForm" onsubmit="handleFormSubmit(event)">
+        <div class="form-group">
+          <label>Flat Number</label>
+          <input type="text" id="flatNumberInput" placeholder="e.g. C-301" required>
+        </div>
+        <div class="form-group">
+          <label>Wing</label>
+          <input type="text" id="wingInput" placeholder="e.g. C Wing" required>
+        </div>
+        <div class="form-group">
+          <label>Floor</label>
+          <input type="number" id="floorInput" placeholder="e.g. 3" min="0" required>
+        </div>
+        <div class="form-group">
+          <label>BHK Type</label>
+          <select id="bhkTypeInput">
+            <option>1 BHK</option>
+            <option selected>2 BHK</option>
+            <option>3 BHK</option>
+            <option>4 BHK</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="statusInput">
+            <option value="Vacant">Vacant</option>
+            <option value="Occupied">Occupied</option>
+            <option value="Maintenance">Maintenance</option>
+          </select>
+        </div>
+        <p class="error-text" id="addFormError"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Flat</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Update Status Modal -->
+  <div class="modal-overlay" id="updateModal">
+    <div class="modal">
+      <h2 id="updateModalTitle">Update Status</h2>
+      <form id="updateForm" onsubmit="handleUpdateSubmit(event)">
+        <div class="form-group">
+          <label>Status</label>
+          <select id="updateStatusInput" onchange="toggleOccupantFields()">
+            <option value="Vacant">Vacant</option>
+            <option value="Occupied">Occupied</option>
+            <option value="Maintenance">Maintenance</option>
+          </select>
+        </div>
+        <div class="form-group" id="residentNameGroup">
+          <label>Resident Name</label>
+          <input type="text" id="residentNameInput" placeholder="e.g. Rahul Sharma">
+        </div>
+        <div class="form-group" id="residentTypeGroup">
+          <label>Resident Type</label>
+          <select id="residentTypeInput">
+            <option value="Owner">Owner</option>
+            <option value="Tenant">Tenant</option>
+          </select>
+        </div>
+        <div class="form-group" id="contactGroup">
+          <label>Contact Number</label>
+          <input type="text" id="contactInput" placeholder="e.g. +91 9876543210">
+        </div>
+        <p class="error-text" id="updateFormError"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn" onclick="closeUpdateModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'flats';
+    let flats = [];
+    let currentFilter = 'All';
+    let editingFlatNumber = null;
+
+    const defaultFlats = [
+      { flatNumber: 'A-101', wing: 'A Wing', floor: 1, bhkType: '2 BHK', status: 'Vacant', residentName: '', residentType: '', contactNumber: '' },
+      { flatNumber: 'A-102', wing: 'A Wing', floor: 1, bhkType: '3 BHK', status: 'Occupied', residentName: 'Rahul Sharma', residentType: 'Tenant', contactNumber: '+91 9876543210' },
+      { flatNumber: 'B-201', wing: 'B Wing', floor: 2, bhkType: '1 BHK', status: 'Vacant', residentName: '', residentType: '', contactNumber: '' },
+      { flatNumber: 'B-202', wing: 'B Wing', floor: 2, bhkType: '2 BHK', status: 'Maintenance', residentName: '', residentType: '', contactNumber: 'Painting in progress' }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFlats();
+      render();
+    });
+
+    function loadFlats() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        flats = raw ? JSON.parse(raw) : defaultFlats;
+      } catch (e) {
+        flats = defaultFlats;
+      }
+      if (!flats || flats.length === 0) flats = defaultFlats;
+    }
+
+    function saveFlats() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(flats));
+      } catch (e) {
+        console.error('Could not save flats', e);
+        alert('Could not save changes. Your browser storage may be full or disabled (e.g. private/incognito mode).');
+      }
+    }
+
+    function render() {
+      renderSummary();
+      renderGrid();
+    }
+
+    function renderSummary() {
+      document.getElementById('stat-total').innerText = flats.length;
+      document.getElementById('stat-vacant').innerText = flats.filter(f => f.status === 'Vacant').length;
+      document.getElementById('stat-occupied').innerText = flats.filter(f => f.status === 'Occupied').length;
+      document.getElementById('stat-maintenance').innerText = flats.filter(f => f.status === 'Maintenance').length;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('flatsGrid');
+      const visible = currentFilter === 'All' ? flats : flats.filter(f => f.status === currentFilter);
+
+      if (visible.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #64748b;">No flats found.</p>';
+        return;
+      }
+
+      grid.innerHTML = visible.map(flat => {
+        const badgeClass = flat.status.toLowerCase();
+        const occupantLine = flat.residentName
+          ? `${escapeHtml(flat.residentName)}${flat.residentType ? ` (${escapeHtml(flat.residentType)})` : ''}`
+          : 'None';
+        return `
+          <div class="flat-card" data-status="${flat.status}">
+            <div>
+              <div class="flat-header">
+                <span class="flat-number">${escapeHtml(flat.flatNumber)}</span>
+                <span class="badge ${badgeClass}">${flat.status}</span>
+              </div>
+              <div class="flat-details">
+                <p><strong>Wing:</strong> ${escapeHtml(flat.wing)} | Floor ${flat.floor}</p>
+                <p><strong>Type:</strong> ${escapeHtml(flat.bhkType)}</p>
+                <p><strong>Occupant:</strong> ${occupantLine}</p>
+                ${flat.contactNumber ? `<p><strong>Contact:</strong> ${escapeHtml(flat.contactNumber)}</p>` : ''}
+              </div>
+            </div>
+            <button class="btn" style="width: 100%;" onclick="openUpdateModal('${escapeAttr(flat.flatNumber)}')">Update Status</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str ?? '';
+      return div.innerHTML;
+    }
+    function escapeAttr(str) {
+      return String(str ?? '').replace(/'/g, "\\'");
+    }
+
+    function filterFlats(status, element) {
+      currentFilter = status;
+      document.querySelectorAll('.filter-buttons .btn').forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+      renderGrid();
+    }
+
+    function openModal() {
+      document.getElementById('addFormError').style.display = 'none';
+      document.getElementById('flatForm').reset();
+      document.getElementById('addModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('addModal').classList.remove('active');
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const flatNumber = document.getElementById('flatNumberInput').value.trim();
+      const wing = document.getElementById('wingInput').value.trim();
+      const floor = parseInt(document.getElementById('floorInput').value, 10);
+      const bhkType = document.getElementById('bhkTypeInput').value;
+      const status = document.getElementById('statusInput').value;
+      const errorEl = document.getElementById('addFormError');
+
+      if (!flatNumber || !wing || isNaN(floor)) {
+        errorEl.textContent = 'Please fill in flat number, wing, and floor.';
+        errorEl.style.display = 'block';
+        return;
+      }
+      if (flats.some(f => f.flatNumber.toLowerCase() === flatNumber.toLowerCase())) {
+        errorEl.textContent = 'A flat with this number already exists.';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      flats.push({ flatNumber, wing, floor, bhkType, status, residentName: '', residentType: '', contactNumber: '' });
+      saveFlats();
+      render();
+      closeModal();
+    }
+
+    function openUpdateModal(flatNumber) {
+      const flat = flats.find(f => f.flatNumber === flatNumber);
+      if (!flat) return;
+      editingFlatNumber = flatNumber;
+      document.getElementById('updateModalTitle').innerText = `Update status - ${flat.flatNumber}`;
+      document.getElementById('updateStatusInput').value = flat.status;
+      document.getElementById('residentNameInput').value = flat.residentName || '';
+      document.getElementById('residentTypeInput').value = flat.residentType || 'Tenant';
+      document.getElementById('contactInput').value = flat.contactNumber || '';
+      document.getElementById('updateFormError').style.display = 'none';
+      toggleOccupantFields();
+      document.getElementById('updateModal').classList.add('active');
+    }
+
+    function closeUpdateModal() {
+      document.getElementById('updateModal').classList.remove('active');
+      editingFlatNumber = null;
+    }
+
+    function toggleOccupantFields() {
+      const status = document.getElementById('updateStatusInput').value;
+      const show = status === 'Occupied';
+      document.getElementById('residentNameGroup').classList.toggle('hidden', !show);
+      document.getElementById('residentTypeGroup').classList.toggle('hidden', !show);
+      document.getElementById('contactGroup').classList.toggle('hidden', !show);
+    }
+
+    function handleUpdateSubmit(e) {
+      e.preventDefault();
+      const flat = flats.find(f => f.flatNumber === editingFlatNumber);
+      if (!flat) return;
+
+      const status = document.getElementById('updateStatusInput').value;
+      const errorEl = document.getElementById('updateFormError');
+
+      if (status === 'Occupied') {
+        const name = document.getElementById('residentNameInput').value.trim();
+        if (!name) {
+          errorEl.textContent = 'Enter a resident name for an occupied flat.';
+          errorEl.style.display = 'block';
+          return;
+        }
+        flat.residentName = name;
+        flat.residentType = document.getElementById('residentTypeInput').value;
+        flat.contactNumber = document.getElementById('contactInput').value.trim();
+      } else {
+        flat.residentName = '';
+        flat.residentType = '';
+        flat.contactNumber = '';
+      }
+      flat.status = status;
+
+      saveFlats();
+      render();
+      closeUpdateModal();
+    }
+  </script>
+</body>
+</html>

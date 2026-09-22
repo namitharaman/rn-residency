@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RN Residency - Facilities</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --accent: #2563eb;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .facilities-container {
+      max-width: 1100px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2.25rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle {
+      color: var(--text-sub);
+      font-size: 1rem;
+      margin-bottom: 40px;
+    }
+
+    .facilities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    /* Interactive Card Component */
+    .facility-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 32px 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Hover & Active Effects */
+    .facility-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border-color: var(--accent);
+    }
+
+    .facility-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .facility-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Icon Container Styling */
+    .icon-wrapper {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #eff6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .facility-card:hover .icon-wrapper {
+      transform: scale(1.1) rotate(4deg);
+      background: var(--accent);
+    }
+
+    /* Vector/SVG Icons Styling */
+    .icon-wrapper svg {
+      width: 36px;
+      height: 36px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.3s ease;
+    }
+
+    .facility-card:hover .icon-wrapper svg {
+      stroke: #ffffff;
+    }
+
+    /* Card Content */
+    .facility-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .facility-card p {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    /* Status Badge */
+    .status-badge {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 640px) {
+      .section-title {
+        font-size: 1.75rem;
+      }
+      .facilities-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="facilities-container">
+    <h1 class="section-title">RN Residency Facilities</h1>
+    <p class="section-subtitle">Designed for your maximum comfort, safety, and convenience</p>
+
+    <div class="facilities-grid">
+
+      <!-- 1. 24/7 Water Supply -->
+      <div class="facility-card">
+        <div class="icon-wrapper">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+          </svg>
+        </div>
+        <h3>24/7 Water Supply</h3>
+        <p>Continuous dual-source water availability ensuring uninterrupted supply around the clock.</p>
+        <span class="status-badge">Always On</span>
+      </div>
+
+      <!-- 2. Power Backup / Current -->
+      <div class="facility-card">
+        <div class="icon-wrapper">
+          <svg viewBox="0 0 24 24">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <h3>24/7 Power Backup</h3>
+        <p>Uninterrupted electricity supply backed up by modern heavy-duty power generators.</p>
+        <span class="status-badge">Active Backup</span>
+      </div>
+
+      <!-- 3. Modern Lift -->
+      <div class="facility-card">
+        <div class="icon-wrapper">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <polyline points="7 10 12 5 17 10"></polyline>
+            <polyline points="7 14 12 19 17 14"></polyline>
+          </svg>
+        </div>
+        <h3>Elevator / Lift</h3>
+        <p>Fast, safe, and modern automatic elevator access across all residential floors.</p>
+        <span class="status-badge">Operational</span>
+      </div>
+
+      <!-- 4. CCTV Surveillance -->
+      <div class="facility-card">
+        <div class="icon-wrapper">
+          <svg viewBox="0 0 24 24">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+        </div>
+        <h3>CCTV Camera Service</h3>
+        <p>Round-the-clock IP camera surveillance covering entryways, corridors, and common areas.</p>
+        <span class="status-badge">24/7 Monitoring</span>
+      </div>
+
+      <!-- 5. Lighting Service -->
+      <div class="facility-card">
+        <div class="icon-wrapper">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 18h6"></path>
+            <path d="M10 22h4"></path>
+            <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path>
+          </svg>
+        </div>
+        <h3>Ambient Lighting</h3>
+        <p>Well-lit staircases, common corridors, and exterior perimeter lighting for night safety.</p>
+        <span class="status-badge">Auto-Sensors</span>
+      </div>
+
+      <!-- 6. Reserved Parking -->
+      <div class="facility-card">
+        <div class="icon-wrapper">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            <path d="M9 17V7h4a3 3 0 0 1 0 6H9"></path>
+          </svg>
+        </div>
+        <h3>Dedicated Parking</h3>
+        <p>Spacious and organized parking slots available for two-wheelers and four-wheelers.</p>
+        <span class="status-badge">Reserved Slots</span>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

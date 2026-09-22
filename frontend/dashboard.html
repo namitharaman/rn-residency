@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RN Residency Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #00b4db, #0083b0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 1000px;
+    }
+
+    h1 {
+      color: white;
+      margin-bottom: 40px;
+      animation: fade 1s ease-in-out;
+    }
+
+    .card-container {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      width: 220px;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.05);
+    }
+
+    .card h2 {
+      color: teal;
+      font-size: 1.3rem;
+      margin-top: 0;
+    }
+
+    .card p {
+      color: gray;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: teal;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #006666;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>🏢 Welcome to RN Residency Dashboard</h1>
+
+  <div class="card-container">
+
+    <!-- 1. ABOUT CARD -->
+    <div class="card">
+      <h2>ℹ️ About Us</h2>
+      <p>Learn more about RN Residency society details.</p>
+      <button onclick="location.href='about.html'">Open</button>
+    </div>
+
+    <!-- 2. FLAT AVAILABLE CARD -->
+    <div class="card">
+      <h2>🏠 Flat Available</h2>
+      <p>Check vacant and occupied flats in real-time.</p>
+      <button onclick="location.href='flatdetails.html'">Open</button>
+    </div>
+
+    <!-- 3. FACILITIES CARD -->
+    <div class="card">
+      <h2>🏋️ Facilities</h2>
+      <p>Explore amenities like Lift, camera , & Parking.</p>
+      <button onclick="location.href='facility.html'">Open</button>
+    </div>
+
+    <!-- 4. BILLING CARD -->
+    <div class="card">
+      <h2>⚡ Utility Billing</h2>
+      <p>Calculate water & electric bills and store in MongoDB.</p>
+      <button onclick="location.href='bill.html'">Open</button>
+    </div>
+
+    <!-- 5. CONTACT CARD -->
+    <div class="card">
+      <h2>📞 Contact Us</h2>
+      <p>Reach out to security or society management.</p>
+      <button onclick="location.href='contact.html'">Open</button>
+    </div>
+
+    <!-- 6. ROOM SPECS CARD -->
+    <div class="card">
+      <h2>🛏 Room Specs</h2>
+      <p>View 1BHK, 2BHK, and 3BHK flat configurations.</p>
+      <button onclick="location.href='rooms.html'">Open</button>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
